@@ -1,0 +1,73 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+</style>
+{% if error %}
+    <script>alert('1 Employee Updated Sucessfully');
+window.location='{% url 'view_employee' %}';
+</script>
+    {% endif %}
+<center>
+
+		<!---header--->
+		<div class="header">
+			<h1>Update Employee Detail </h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+				<div class="contact-w3" style="width:80%">
+
+					<form action="" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<label>Enter First Name</label>
+						<input type="text" name="fname" value="{{teac.reg.first_name}}">
+						<label>Enter Second Name</label>
+						<input type="text" name="lname" value="{{teac.reg.last_name}}">
+
+                        <label>Email</label>
+						<input type="email" name="email"  value="{{teac.reg.email}}">
+                        <label>Position</label>
+        <input type="text" name="pos" value="{{teac.position}}" required>
+
+                                <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Birth</label>
+                                                <input type="date" name="birth">
+                                            </div>
+                                    <div class="col-md-6" style="margin-top:30px">
+                                <input type="text" value="{{teac.reg.birth}}" readonly>
+                                            </div>
+                                </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Gender</label><i style="border:1px solid black;background-color:white;width:96%;height:42px;" align="left">
+                        Male<input  type="radio" name="gen" value="Male"> Female<input type="radio" value="Female" name="gen"></i>
+
+                            </div>
+                            <div class="col-md-6" style="margin-top:30px">
+                                    <input type="text" value="{{teac.reg.gen}}" readonly>
+                             </div>
+                        </div>
+
+                   						<label>Address</label>
+						 <input type="text" name="add" value="{{teac.reg.add}}" >
+                    <label>Mobile</label>
+						<input type="number" name="mobile" maxlength="10" value="{{teac.reg.mobile}}" >
+						<label>Your Image</label>
+						<input type="file" accept="image/*" name="imag" style="border:1px solid black;background-color:white">
+                        <img src="{{teac.reg.image.url}}" style="width:140px;height:160px;border:1px solid black">
+
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+			</div>
+    </center>
+		{% endblock %}

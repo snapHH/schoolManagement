@@ -1,0 +1,67 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+</style>
+{% if error %}
+    <script>alert('{{data.stu.reg.user.first_name}}, Fee  Submitted Sucessfully');
+window.location='{% url 'view_books' %}';
+</script>
+    {% endif %}
+<center>
+
+		<!---header--->
+		<div class="header">
+			<h1>Fee Detail</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+				<div class="contact-w3" style="width:80%">
+
+					    <form action="{% url 'stu' %}" method="post">
+						{% csrf_token %}
+
+
+                            <label>Select Student Id</label>
+                        <select name="s_id">
+                            {% for i in stu %}
+                                       {% ifnotequal i.s_id data.stu.s_id %}
+                                <option value="{{i.s_id}}">{{i.s_id}}</option>
+                            {% else %}
+                            <option value="{{data.stu.s_id}}" selected>{{data.stu.s_id}}</option>
+                            {% endifnotequal %}
+                        {% endfor %}
+                            </select>
+                            <input type="submit" value="Submit">
+
+					    <form action="" method="post">
+                            {% csrf_token %}
+                            <span align="left" style="color:white;float:left;margin-bottom:38px;">Last Date : {{data.l_date}}</span>
+						<span align="right" style="color:white;float:right;margin-bottom:38px;">Current Date : {{today}}</span>
+
+                            <label style="margin-bottom:0px">Collecting</label>
+						<input type="number" name="depo">
+
+                        <div class="row" style="color:red">
+                            <div class="col-md-6">
+                            <h3 style="border:1px solid black;border-radius:6px;background-color:white">{{data.total}}</h3>
+                             </div>
+                        <div class="col-md-6">
+                            <h3 style="border:1px solid black;border-radius:6px;background-color:white">{{data.remain}}</h3>
+                        </div>
+                        </div>
+
+
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+			</div>
+    </center>
+		{% endblock %}

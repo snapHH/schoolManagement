@@ -1,0 +1,56 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+</style>
+{% if error %}
+    <script>alert('1 Staff Added Sucessfully');
+window.location='{% url 'view_employee' %}';
+</script>
+    {% endif %}
+<center>
+
+		<!---header--->
+		<div class="header">
+			<h1 style = "color : white ; font-weight : bold">Add Employee Detail</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+				<div class="contact-w3" style="width:80%">
+
+					<form action="" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<label>Enter First Name</label>
+						<input type="text" name="fname" placeholder="Enter first name" required>
+						<label>Enter Second Name</label>
+						<input type="text" name="lname" placeholder="Enter second name" required>
+
+                        <label>Email</label>
+						<input type="email" name="email"  required>
+                        <label>Birth</label>
+						<input type="date" name="birth"  required>
+
+                        <label>Position</label>
+						<input type="text" name="pos" placeholder="Enter Teacher Position" required>
+                    <label>Gender</label><i style="border:1px solid black;background-color:white;width:96%;height:42px;" align="left">
+                        Male<input  type="radio" name="gen" value="Male"> Female<input type="radio" name="gen" value="Female"></i>
+						<label>Address</label>
+						 <input type="text" name="add" placeholder="Enter Your Address" required>
+                    <label>Mobile</label>
+						<input type="number" name="mobile" maxlength="10" placeholder="Enter Your Mobile" required>
+						<label>Your Image</label>
+						<input type="file" accept="image/*" name="img" style="border:1px solid black;background-color:white" required>
+
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+			</div>
+    </center>
+		{% endblock %}

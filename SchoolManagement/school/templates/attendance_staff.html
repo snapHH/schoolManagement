@@ -1,0 +1,58 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+</style>
+{% if error %}
+    <script>alert('Staff attendance marked successfully');
+</script>
+    {% endif %}
+
+
+		<!---header--->
+		<div class="header">
+			<h1 style = "color : white ; font-weight : bold">Employee Attendance</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+				<div class="contact-w3" style="width:80%">
+
+					<form action="" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<label>Select Employee</label>
+
+
+                            <select name="fname">
+								{% for i in reg %}
+                                <option value="{{i.reg.id}}">{{i.reg.first_name}}</option>
+								{% endfor %}
+                            </select>
+
+
+
+
+                        <label>Date</label>
+						<input type="text" name="date" value="{{today}}"  readonly>
+
+                        <label>Arrival Time</label>
+						<input type="time" name="a_time" max="17:00" min="10:00" required>
+
+                        <label>Departure Time</label>
+						<input type="time" name="d_time" max="17:00" min="10:00"  required>
+
+                        <label>Description</label>
+                        <textarea  name="desc"  required></textarea>
+
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+			</div>
+
+		{% endblock %}

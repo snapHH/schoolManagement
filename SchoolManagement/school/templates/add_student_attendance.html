@@ -1,0 +1,110 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+{% load filters %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+th,td{
+	color:white;
+}
+</style>
+{% if error %}
+    <script>alert('1 Teacher Added Sucessfully');
+window.location='{% url 'login' %}';
+</script>
+    {% endif %}
+
+
+		<!---header--->
+		<div class="header">
+			<h1 style = "color : white ; font-weight : bold">Student Attendance</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+				<div class="contact-w3" style="width:80%">
+{% if not messages %}
+					{% if not student %}
+					<form action="" method="get" enctype="multipart/form-data">
+						<label>Select Class</label>
+
+
+                            <select name="class">
+								{% for i in clas_data1 %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+								{% endfor %}
+                            </select>
+
+						<label>Select Shift</label>
+						 	<select name="shift">
+                                <option value="Shift-1">Shift-1</option>
+                                <option value="Shift-2">Shift-2</option>
+                            </select>
+
+						<input type="submit" value="Submit">
+					</form>
+					{% else %}
+<table class="table">
+	<form action="" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+		<thead>
+		<td colspan="6">
+				<h2 style="color:yellow">Attendance of {{request.GET.class|get_class_name}} class {{request.GET.shift}}</h2>
+		</td>
+		<tr>
+			<th>Roll No</th>
+			<th>Name</th>
+			<th>Present</th>
+			<th>Absent</th>
+		</tr>
+
+	</thead>
+		<tbody>
+		{% for c in student %}
+		<tr>
+			<td>{{c.roll}}</td>
+			<td>{{c.reg.first_name}}</td>
+			<td>
+				<input type="radio" value="True" name="attendance-{{forloop.counter}}" style="width:40px;height:1.3em" required>
+			</td>
+			<td>
+				<input type="radio" value="False" name="attendance-{{forloop.counter}}" style="width:40px;height:1.3em" required>
+			</td>
+			<input type="hidden" name="pid-{{forloop.counter}}" value="{{c.id}}">
+		</tr>
+		{% endfor %}
+		{% if student %}
+		<tr>
+			<td colspan="4"><input type="submit" value="Submit"></td>
+		</tr>
+		{% endif %}
+		</tbody>
+	</form>
+</table>
+
+
+
+{% endif %}
+{% else %}
+{% for i in messages %}
+<h1 style="color:red">{{i}}</h1>
+{% endfor %}
+
+{% endif %}
+</div>
+</div>
+
+<script>
+{% for i in messages %}
+
+    alert("{{i}}");
+    window.location='{% url 'add_student_attendance' %}';
+{% endfor %}
+</script>
+
+{% endblock %}

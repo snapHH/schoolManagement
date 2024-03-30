@@ -1,0 +1,43 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+
+.button{
+    background-color:orange;
+    color:white;
+}
+        </style>
+<center><h2 style="color:red">View Teacher Attendance</h2></center>
+ <div class="container">
+<table class="table table-bordered" id="myTable">
+  <thead>
+  <tr>
+    <th>First Name</th>
+    <th>Date</th>
+    <th>In time</th>
+    <th>Out Time</th>
+      <th>Description</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+   <tbody>
+
+    {% for i in stu %}
+
+  <tr>
+    <td>{{i.teacher.reg.first_name}}</td>
+      <td>{{i.date1}}</td>
+      <td>{{i.a_time}}</td>
+      <td>{{i.d_time}}</td>
+      <td>{{i.desc}}</td>
+      <td><a href="{% url 'delete_teacher_attendance' i.id  %}"><button class="button button1">Delete</button></a></td>
+
+  </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+ </div>
+{% endblock %}

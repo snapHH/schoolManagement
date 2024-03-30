@@ -1,0 +1,63 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+th{
+width:17%;
+}
+
+.button{
+    background-color:orange;
+    color:white;
+}
+
+</style>
+<center><h2 style="color:red">View Student Detail</h2></center>
+ <div class="container">
+<table class="table table-bordered" id="myTable">
+  <thead>
+  <tr>
+    <th>First Name</th>
+    <th>last Name</th>
+    <th>Email ID</th>
+    <th>Class</th>
+    <th>Roll</th>
+    <th>Year</th>
+    <th>Date of Birth</th>
+      <th>Contact No.</th>
+    <th>Gender</th>
+      <th>Address</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+   <tbody>
+
+    {% for i in stu %}
+
+  <tr>
+    <td>{{i.reg.first_name}}</td>
+      <td>{{i.reg.last_name}}</td>
+      <td>{{i.reg.email}}</td>
+      <td>
+        {% for j in i.clas.all %}
+        {{j}},
+        {% endfor %}
+      </td>
+      <td>{{i.roll}}</td>
+      <td>{{i.year}}</td>
+      <td>{{i.reg.birth}}</td>
+      <td>{{i.reg.mobile}}</td>
+      <td>{{i.reg.gen}}</td>
+      <td>{{i.reg.add}}</td>
+    <td><a href="{% url 'editstudent' i.reg.id %}"><button class="button button1">Edit</button></a></td>
+      <td><a href="{% url 'delete_student' i.id %}"><button class="button button1">Delete</button></a></td>
+
+  </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+ </div>
+{% endblock %}

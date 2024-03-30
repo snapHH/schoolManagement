@@ -1,0 +1,20 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<h1 style="color:Black;margin:10px;font-size:30px">About Us</h1>
+
+<div class="container" style = "margin-top : 100px">
+      
+      <div class="row">
+          <div class="col-sm-4">
+              <img src="{% static 'images/abt.png' %}" width=300 height = 200 class="img-responsive">        
+          </div>
+          <div class="col-sm-8" style = "font-weight : bold ; margin-top : 80px">
+              Hola folks!
+It looks like you are here to know us better.School Management Site is a user friendly, easy to use website where 
+one can done whole management work of school.
+          </div>
+      </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+th{
+width:17%;
+}
+
+.button{
+    background-color:orange;
+    color:white;
+}
+
+</style>
+<center><h2 style="color:red">View Class</h2></center>
+ <div class="container">
+<table class="table table-bordered" id="myTable" style="width:100%">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Class Name</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+   <tbody>
+
+    {% for i in clas %}
+
+  <tr>
+    <td>{{i.pk}}</td>
+      <td>{{i.name}}</td>
+    <td><a href="{% url 'change_class' i.id %}"><button class="button button1">Edit</button></a></td>
+     <td> <a href="{% url 'delete_class' i.id %}"><button class="button button1">Delete</button></a></td>
+
+  </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+ </div>
+
+<script>
+{% for i in messages %}
+
+    alert("{{i}}");
+    window.location='{% url 'view_class' %}';
+{% endfor %}
+</script>
+{% endblock %}

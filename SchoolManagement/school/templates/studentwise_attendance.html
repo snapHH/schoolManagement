@@ -1,0 +1,160 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+{% load filters %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+th,td{
+	color:white;
+}
+</style>
+
+
+
+		<!---header--->
+		<div class="header">
+			<h1 style = "color : white ; font-weight : bold">Student Attendance</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+				<div class="contact-w3" id="printableArea" style="width:80%">
+{% if not messages %}
+					{% if not attend %}
+					<form action="" method="get" enctype="multipart/form-data">
+						<label>Select Class</label>
+
+
+                            <select name="class" id="class" required>
+                                <option value="0">Choose a value</option>
+								{% for i in clas1 %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+								{% endfor %}
+                            </select>
+
+                        <label>Select Student</label>
+
+
+                            <select name="student" id="student" required>
+
+                            </select>
+                        <input type="hidden" id="status_value" value="{{request.GET.student}}">
+						<label>Select Start date</label>
+						 	<input type="date" name="sdate" value="" required>
+                        <label>Select End date</label>
+						 	<input type="date" name="edate" value="" required>
+
+						<input type="submit" value="Submit">
+					</form>
+					{% else %}
+<table class="table">
+		<thead>
+		<td colspan="6">
+				<h2 style="color:yellow">Attendance report of {{request.GET.class|get_class_name}} class of "{{student.reg.first_name}}" from {{request.GET.sdate}} to {{request.GET.edate}}</h2>
+			</td>
+		<tr>
+			<th>#</th>
+			<th>Date</th>
+			<th>Sift-1</th>
+			<th>Shift-2</th>
+
+		</tr>
+
+	</thead>
+		<tbody>
+		{% for c in attend %}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{c.attend_date}}</td>
+			<td>{% get_shift_present request 'shift1' c.attend_date %}</td>
+			<td>{% get_shift_present request 'shift2' c.attend_date %}</td>
+
+		</tr>
+		{% endfor %}
+		</tbody>
+</table>
+
+
+{% endif %}
+{% else %}
+{% for i in messages %}
+<h1 style="color:red">{{i}}</h1>
+{% endfor %}
+
+{% endif %}
+</div>
+				{% if attend %}
+				<input id="submit_button" class=" btn btn-success"  style="margin-left:80%" type="button" onclick="printDiv('printableArea')" value="Print Report" />
+{% endif %}
+			</div>
+
+<script>
+{% for i in messages %}
+
+    alert("{{i}}");
+    window.location='{% url 'studentwise_attendance' %}';
+{% endfor %}
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+
+$("#class").change(function(e) {
+
+    var class_choice = $("#class").val();
+    var status_value = $("#status_value").val();
+    var student = $("#student").val();
+    var status_filter = $("#status_filter").val();
+    var type_of = $('#type_of').val();
+    myselect =  $('#student');
+    $.ajax({
+        url:"/get-student?class_choice="+class_choice,
+        success: function(data)
+
+                           {
+                           myselect.empty();
+                           myselect.append("<option value='0' selected='selected'>Choose a value</option>");
+                           for(i=0;i<Object.keys(data).length;i++)
+                            {
+
+                            if(i == status_value)
+                                {
+                            myselect.append("<option value="+Object.keys(data)[i]+" selected='selected'>" + Object.values(data)[i] + "</option>");
+                                }
+
+                                else
+                                {
+
+                            myselect.append("<option value="+Object.keys(data)[i]+">" + Object.values(data)[i] + "</option>");
+                                }
+                                }
+                             }
+
+    })
+
+});
+
+
+
+</script>
+<script>
+
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+</script>
+{% endblock %}

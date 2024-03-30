@@ -1,0 +1,136 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load filters %}
+{% load static %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+th,td{
+	color:white;
+}
+</style>
+
+
+
+		<!---header--->
+		<div class="header">
+			<h1 style = "color : white ; font-weight : bold">Classwise Attendance</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+
+				<div class="contact-w3" id="printableArea" style="width:80%">
+
+{% if not messages %}
+					{% if not attend %}
+					<form action="" method="get" enctype="multipart/form-data">
+						<label>Select Class</label>
+
+
+                            <select name="class" required>
+								{% for i in clas1 %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+								{% endfor %}
+                            </select>
+
+						<label>Select Start date</label>
+						 	<input type="date" name="sdate" value="" required>
+                        <label>Select End date</label>
+						 	<input type="date" name="edate" value="" required>
+
+						<input type="submit" value="Submit">
+					</form>
+					{% else %}
+<table class="table" style="border-style: solid;">
+		<thead>
+		<tr>
+			<td colspan="6">
+				<h2 style="color:yellow">Attendance report of {{request.GET.class|get_class_name}} class from {{request.GET.sdate}} to {{request.GET.edate}}</h2>
+			</td>
+		</tr>
+		<tr>
+            <tr>
+			<th rowspan="2" style="font-size:20px">#</th>
+			<th rowspan="2" style="font-size:20px">Date</th>
+            <th colspan="2" style="text-align:center;font-size:20px">Sift-1</th>
+            <th colspan="2" style="text-align:center;font-size:20px">Sift-2</th>
+        </tr>
+        <tr>
+            <th>Present</th>
+            <th>Absent</th>
+            <th>Present</th>
+            <th>Absent</th>
+        </tr>
+        </tr>
+
+
+	</thead>
+		<tbody>
+		{% for c in attend %}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{c.attend_date}}</td>
+			<td>{% get_present_attendance c.attend_date c.clas 'shift1' %}</td>
+			<td>{% get_absent_attendance c.attend_date c.clas 'shift1' %}</td>
+			<td>{% get_present_attendance c.attend_date c.clas 'shift2' %}</td>
+			<td>{% get_absent_attendance c.attend_date c.clas 'shift2' %}</td>
+<!--{% if c.shift1 %}Present{% else %}Absent{% endif %}-->
+		</tr>
+		{% endfor %}
+		<tr>
+			<td></td>
+			<td>Total</td>
+			<td>{% get_total_present request 'shift1' %}</td>
+			<td>{% get_total_absent request 'shift1' %}</td>
+			<td>{% get_total_present request 'shift2' %}</td>
+			<td>{% get_total_absent request 'shift2' %}</td>
+		</tr>
+
+		</tbody>
+</table>
+
+
+
+
+{% endif %}
+{% else %}
+{% for i in messages %}
+<h1 style="color:red">{{i}}</h1>
+{% endfor %}
+
+{% endif %}
+</div>
+				{% if attend %}
+<input id="submit_button" class=" btn btn-success"  style="margin-left:80%" type="button" onclick="printDiv('printableArea')" value="Print Report" />
+{% endif %}
+			</div>
+
+<script>
+{% for i in messages %}
+
+    alert("{{i}}");
+    window.location='{% url 'classwise_attendance' %}';
+{% endfor %}
+</script>
+
+
+<script>
+
+function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+</script>
+
+{% endblock %}

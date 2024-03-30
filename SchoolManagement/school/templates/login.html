@@ -1,0 +1,49 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+</style>
+{% ifequal error "login" %}
+    <script>alert('Logged in successfully');
+window.location='{% url 'home' %}';
+</script>
+    {% endifequal %}
+{% ifequal error "not" %}
+    <script>alert('Username & Password Not Matching');
+window.location='{% url 'login' %}';
+</script>
+    {% endifequal %}
+{% ifequal error "notlogin" %}
+    <script>alert('Username & Password Not Matching');
+window.location='{% url 'login' %}';
+</script>
+    {% endifequal %}
+<body>
+		<!---header--->
+		<div class="header">
+			<h1 style = "color : white ; font-weight : bold">Admin Login</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content">
+				<div class="contact-w3">
+
+					<form action="" method="post">
+						{% csrf_token %}
+						<label>Username</label>
+						<input type="text" name="uname" placeholder="Your name" required>
+						<label>Password</label>
+						<input type="password" name="pwd"  required>
+
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+			</div>
+</body>
+		{% endblock %}

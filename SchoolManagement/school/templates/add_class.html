@@ -1,0 +1,43 @@
+{% extends 'index4.html' %}
+{% block body %}
+{% load static %}
+<style>
+	body{
+	font-family: 'Open Sans', sans-serif;
+	background: url({% static 'images/banner5.jpg' %}) no-repeat 0px 0px;
+	background-size:cover;
+
+}
+</style>
+
+<script>
+{% for i in messages %}
+
+    alert("{{i}}");
+    window.location='{% url 'view_class' %}';
+{% endfor %}
+</script>
+
+		<!---header--->
+		<div class="header">
+			<h1 style = "color : white ; font-weight : bold">{% if clas %}Change{% else %}Add {% endif %} Class</h1>
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main-content" style="width:100%">
+				<div class="contact-w3" style="width:80%">
+
+					<form action="{% if clas %}/change_class{{clas.id}}{% else %}/add_class{% endif %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="form-group">
+						<label >Enter Class Name</label>
+						<input type="text" name="cname" placeholder="Enter Class name" value="{{clas.name}}" required>
+						</div>
+
+
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+			</div>
+
+{% endblock %}
